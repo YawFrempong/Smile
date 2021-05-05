@@ -1,0 +1,1 @@
+### Please note that the "saved_model" folder was left out of the commit due to the 100mb push limit for GitHub repositories. The model weights in the "saved_model" folder can be provided by Yaw Frempong at yfrempon@uncc.edu
