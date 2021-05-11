@@ -24,6 +24,8 @@ list_idx_1 = [1,2,3,4,5,6,7,8]
 decode_2 = {1:'happiness', 2:'neutral', 3:'disgust', 4:'fear', 5:'anger', 6:'surprise', 7:'sadness'}
 list_idx_2 = [1,2,3,4,5,6,7]
 
+#convert image DataURL(string representation of an image) back to a cv2 image and crop the image based on the bounding box coordinate sent from the frontend webapp
+#model was trained on 48x48 images so resize incoming images to 28x28
 def uri_to_image(uri, w, h):
     im_bytes = base64.b64decode(uri)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
@@ -32,6 +34,8 @@ def uri_to_image(uri, w, h):
     im_small = cv2.resize(crop_img, (48, 48), interpolation=cv2.INTER_LINEAR)
     return im_small
 
+#These model are image classifiers
+#CUNY model parameters
 def create_model_1():
     model = Sequential()
     model.add(Conv2D(48, (5,5), activation='relu', input_shape=(48,48,3)))
@@ -48,6 +52,7 @@ def create_model_1():
     model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
     return model
 
+#FER2013 model parameters
 def create_model_2():
     model = Sequential()
     model.add(Conv2D(48, (5,5), activation='relu', input_shape=(48,48,3)))
@@ -64,6 +69,7 @@ def create_model_2():
     model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
     return model
 
+#handle incoming packets from the frontend webapp
 async def hello(websocket, path):
     global first_image
     global my_model
@@ -71,9 +77,12 @@ async def hello(websocket, path):
     global list_idx
 
     face_data = await websocket.recv()
+    
+    #split data per person. '|x|' signals another person in the same frame
     data_all = face_data.split('|X|')
     user_selection = data_all.pop()
     
+    #decode data for that person: bounding box coordinates, image DataURL, current model selection
     send_data = ''
     for person in data_all:
         data_arr = person .split('|||')
@@ -88,7 +97,9 @@ async def hello(websocket, path):
 
         #predict emotion from image
         answer_dict = {}
-
+        
+        #do prediction based on what model the user selected
+        #CUNY Model
         if user_selection == '1':
             predictions = my_model_1.predict(np.array([img]))
             x = predictions
@@ -101,9 +112,11 @@ async def hello(websocket, path):
             
             for i in range(len(list_idx_1)):
                 answer_dict[decode_1[list_idx_1[i]]] = round(predictions[0][list_idx_1[i]] * 100, 2)
-
+        
+        #FER2013 Model
         elif user_selection == '2':
             np_img = np.array([img])
+            #this model was trained on grayscaled images
             np_img = np_img / 225
             predictions = my_model_2.predict(np_img)
             x = predictions
@@ -117,13 +130,15 @@ async def hello(websocket, path):
             for i in range(len(list_idx_2)):
                 answer_dict[decode_2[list_idx_2[i]]] = round(predictions[0][list_idx_2[i]] * 100, 2)
 
-
+        
+        #get the classification with the highest confidence
         max_key = max(answer_dict, key=answer_dict.get)
         send_data += max_key + '|||' + bb_coor[0] + '|||' + bb_coor[1] + '|||' + frame_num + '|Y|'
-
+    
+    #send the string data back to the frontend webapp: person 1's emotion|||person 1's x_bounding_box_coordinate|||person 1's y_bounding_box_coordinate|||person 1's frame_number|Y|person 2's emotion|||....
     await websocket.send(send_data)
 
-#load Model
+#load models
 my_model_1 = create_model_1()
 my_model_1.load_weights("saved_model/CUNY/cp.ckpt")
 
