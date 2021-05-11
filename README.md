@@ -1,6 +1,9 @@
-### 1. Please note that the "saved_model" folder was left out of the commit due to the 100mb push limit for GitHub repositories. The model weights in the "saved_model" folder can be provided by Yaw Frempong at yfrempon@uncc.edu. 
+### 1. The frontend code can be found in 'index.html' and 'script.js'
+### 2. The backend code can be found in 'model_server.py'
 
-### 2. Sources:
+### 3. Please note that the "saved_model" folder was left out of the commit due to the 100mb push limit for GitHub repositories. The model weights in the "saved_model" folder can be provided by Yaw Frempong at yfrempon@uncc.edu. 
+
+### 4. Sources:
 #### - "face-api-min.js" file and "models" folder were provided from the WebDevSimplified GitHub: 
 https://github.com/WebDevSimplified/Face-Detection-JavaScript
 #### - we followed this guide on YouTube by Computer Science to train our emotion classification models: 
