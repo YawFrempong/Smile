@@ -9,7 +9,9 @@
 
 ### 5. Please note that the "saved_model" folder was left out of the commit due to the 100mb push limit for GitHub repositories. The model weights in the "saved_model" folder can be provided by Yaw Frempong at yfrempon@uncc.edu. 
 
-### 6. Sources:
+### 6. Presentation Slides: https://docs.google.com/presentation/d/1QF5U0KDpKzIqIGCXxntaV3Rzw0hMQZy4a4PcETEKha0/edit?usp=sharing
+
+### 7. Sources:
 #### - "face-api-min.js" file and "models" folder were provided from the WebDevSimplified GitHub: 
 https://github.com/WebDevSimplified/Face-Detection-JavaScript
 #### - We followed this guide on YouTube by Computer Science to train our emotion classification models: 
