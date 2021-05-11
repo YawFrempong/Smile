@@ -15,12 +15,12 @@ https://github.com/muxspace/facial_expressions
 #### - the FER2013 Dataset is from Kaggle: 
 https://www.kaggle.com/msambare/fer2013
 
-Team Members:
-Carver Simkins
-csimkin1@uncc.edu
+## Team Members:
+### Carver Simkins
+> #### csimkin1@uncc.edu
 
-Meghana Palaparthi
-mpalapar@uncc.edu
+### Meghana Palaparthi
+> #### mpalapar@uncc.edu
 
-Yaw Frempong
-yfrempon@uncc.edu
+### Yaw Frempong
+> #### yfrempon@uncc.edu
