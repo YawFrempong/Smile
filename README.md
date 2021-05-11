@@ -1,3 +1,5 @@
+<img src="smile.PNG" width="1000">
+
 ### 1. The frontend code can be found in 'index.html' and 'script.js'
 ### 2. The backend code can be found in 'model_server.py'
 
